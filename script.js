@@ -155,6 +155,9 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
+let jumpHandler = new Worker('jumpHandler.js');
+jumpHandler.postMessage("init");
+
 
 let alive = setInterval( () => {
     disp.cls();
