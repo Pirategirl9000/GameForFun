@@ -70,7 +70,7 @@ let alive = setInterval( () => {
 
 document.addEventListener('keydown', (e) => {
     if (e.code == 'KeyF') {
-        disp.element.requestFullscreen()
+        disp.element.requestFullscreen();
     }
 
     if (e.code == 'KeyD') {
