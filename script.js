@@ -149,11 +149,17 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
+<<<<<<< HEAD
 document.addEventListener('keypress', (e) => {
     if (e.code == 'Space') {
         player.jump();
     }
 })
+=======
+let jumpHandler = new Worker('jumpHandler.js');
+jumpHandler.postMessage("init");
+
+>>>>>>> refs/remotes/origin/main
 
 let alive = setInterval( () => {
     disp.cls();
