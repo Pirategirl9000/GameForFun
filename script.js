@@ -64,9 +64,10 @@ class Player {
         this.y = 100;
         this.left = 0;
         this.right = 0;
-        this.speed = 3;
+        this.speed = 9;
         this.WIDTH = 20;
         this.HEIGHT = 20;
+        this.ySpeed = 3
         this.yVel = 5
     }
 
@@ -96,7 +97,7 @@ class Player {
             }
         }
 
-        this.y += this.yVel;
+        this.y += this.yVel * this.ySpeed;
     }
 
     /**
@@ -159,4 +160,4 @@ let alive = setInterval( () => {
     disp.cls();
     ground.update();
     player.update();
-}, 17);
+}, 30);
