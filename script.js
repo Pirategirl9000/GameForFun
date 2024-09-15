@@ -22,21 +22,24 @@ class Player {
     constructor() {
         this.x = disp.WIDTH/2;
         this.y = 100;
-        this.dirX = 0;
+        this.left = 0;
+        this.right = 0;
         this.speed = 3;
         
     }
 
     update() {
+        this.move();
+        this.draw();
+    }
+
+    move() {
         if (this.x < -20) {
             this.x = disp.WIDTH;
         } else if (this.x > disp.WIDTH + 20) {
             this.x = 0;
         }
-        this.x += this.dirX * this.speed;
-        //this.y += 
-
-        this.draw();
+        this.x += this.left * this.speed + this.right * this.speed;
     }
 
     draw() {
@@ -50,7 +53,7 @@ class Player {
 
 }
 
-player = new Player();
+var player = new Player();
 
 
 
@@ -71,14 +74,16 @@ document.addEventListener('keydown', (e) => {
     }
 
     if (e.code == 'KeyD') {
-        player.dirX = 1;
+        player.right = 1;
     } else if (e.code == 'KeyA') {
-        player.dirX = -1;
+        player.left = -1;
     }
 });
 
 document.addEventListener('keyup', (e) => {
-    if (e.code == 'KeyD' || e.code == 'KeyA') {
-        player.dirX = 0;
+    if (e.code == 'KeyD') {
+        player.right = 0;
+    } else if (e.code == 'KeyA') {
+        player.left = 0;
     }
 });
