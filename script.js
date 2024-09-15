@@ -71,14 +71,6 @@ class Player {
     }
 
     /**
-     * Updates the players position and draws the player to ctx
-     */
-    update() {
-        this.#move();
-        this.#draw();
-    }
-
-    /**
      * Moves the player
      */
     #move() {
@@ -93,14 +85,14 @@ class Player {
 
 
         //Vertical Movement
-        if (ground.checkCollide(this.y, this.HEIGHT)) {
+        if (ground.checkCollide(this.y, this.HEIGHT) && this.yVel > 0) {
             this.y = ground.y - this.HEIGHT;
             this.yVel = 0;
         } else {
             if (this.yVel >= 5) {
                 this.yVel = 5;
             } else {
-                this.yVel += 0.1;
+                this.yVel += 0.3;
             }
         }
 
@@ -118,22 +110,26 @@ class Player {
         disp.ctx.closePath();
     }
 
+    /**
+     * Updates the players position and draws the player to ctx
+     */
+    update() {
+        this.#move();
+        this.#draw();
+    }
+
+    jump() {
+        if (this.y + this.HEIGHT == ground.y) {
+            this.yVel = -10;
+        }
+    }
 
 } var player = new Player();
 
 
-let alive = setInterval( () => {
-    disp.cls();
-    ground.update();
-    player.update();
-}, 17);
-
-
-
-
-
 
 document.addEventListener('keydown', (e) => {
+
     if (e.code == 'KeyF') {
         disp.element.requestFullscreen();
     }
@@ -145,6 +141,12 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+document.addEventListener('keypress', (e) => {
+    if (e.code == 'Space') {
+        player.jump();
+    }
+})
+
 document.addEventListener('keyup', (e) => {
     if (e.code == 'KeyD') {
         player.right = 0;
@@ -152,3 +154,10 @@ document.addEventListener('keyup', (e) => {
         player.left = 0;
     }
 });
+
+
+let alive = setInterval( () => {
+    disp.cls();
+    ground.update();
+    player.update();
+}, 17);
