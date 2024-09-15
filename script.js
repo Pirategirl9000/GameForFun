@@ -20,9 +20,40 @@ class Disp {
         this.ctx.fill();
         this.ctx.closePath();
     }
-}
+} var disp = new Disp();
 
-var disp = new Disp();
+class Ground {
+    constructor() {
+        this.x = 0;
+        this.y = 600;
+        this.HEIGHT = 120;
+        this.WIDTH = disp.WIDTH;
+    }
+
+    /**
+     * Checks collision with object
+     * @param {int} y 
+     * @param {int} height 
+     * @returns {bool}
+     */
+    checkCollide(y, height) {
+        if (y + height >= this.y) {
+            return true;
+        }
+
+    }
+
+    /**
+     * Draws ground to ctx
+     */
+    update() {
+        disp.ctx.beginPath();
+        disp.ctx.fillStyle = 'green';
+        disp.ctx.fillRect(this.x, this.y, this.WIDTH, this.HEIGHT);
+        disp.ctx.fill();
+        disp.ctx.closePath();
+    }
+} var ground = new Ground();
 
 class Player {
     /**
@@ -34,46 +65,66 @@ class Player {
         this.left = 0;
         this.right = 0;
         this.speed = 3;
+        this.WIDTH = 20;
+        this.HEIGHT = 20;
+        this.yVel = 5
     }
 
     /**
      * Updates the players position and draws the player to ctx
      */
     update() {
-        this.move();
-        this.draw();
+        this.#move();
+        this.#draw();
     }
 
     /**
      * Moves the player
      */
-    static move() {
+    #move() {
+        //Horizontal Movement
+
         if (this.x < -20) {
             this.x = disp.WIDTH;
         } else if (this.x > disp.WIDTH + 20) {
             this.x = 0;
         }
         this.x += this.left * this.speed + this.right * this.speed;
+
+
+        //Vertical Movement
+        if (ground.checkCollide(this.y, this.HEIGHT)) {
+            this.y = ground.y - this.HEIGHT;
+            this.yVel = 0;
+        } else {
+            if (this.yVel >= 5) {
+                this.yVel = 5;
+            } else {
+                this.yVel += 0.1;
+            }
+        }
+
+        this.y += this.yVel;
     }
 
     /**
      * Draws player object
      */
-    draw() {
+    #draw() {
         disp.ctx.beginPath();
         disp.ctx.fillStyle = 'red';
-        disp.ctx.fillRect(this.x, this.y, 20, 20);
+        disp.ctx.fillRect(this.x, this.y, this.WIDTH, this.HEIGHT);
         disp.ctx.fill();
         disp.ctx.closePath();
     }
 
 
-}
+} var player = new Player();
 
-var player = new Player();
 
 let alive = setInterval( () => {
     disp.cls();
+    ground.update();
     player.update();
 }, 17);
 
