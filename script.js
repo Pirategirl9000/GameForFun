@@ -55,6 +55,8 @@ class Ground {
     }
 } var ground = new Ground();
 
+let jumpHandler = new Worker('jumpHandler.js');
+
 class Player {
     /**
      * Creates a new instance of player
@@ -141,12 +143,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-document.addEventListener('keypress', (e) => {
-    if (e.code == 'Space') {
-        player.jump();
-    }
-})
-
 document.addEventListener('keyup', (e) => {
     if (e.code == 'KeyD') {
         player.right = 0;
@@ -155,7 +151,6 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-let jumpHandler = new Worker('jumpHandler.js');
 jumpHandler.postMessage("init");
 
 
